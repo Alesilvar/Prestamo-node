@@ -1,0 +1,95 @@
+org: antoniocot
+service: api-prestamos
+
+provider:
+  name: aws
+  runtime: nodejs18.x # Cambiar a Node.js
+  memorySize: 1024
+  timeout: 30
+  iam:
+    role: arn:aws:iam::316129865556:role/LabRole
+  environment:
+    PRESTAMOS_TABLE: TABLA-PRESTAMOS
+    CUENTAS_TABLE: TABLA-CUENTAS
+    PAGOS_TABLE: TABLA-PAGOS
+
+functions:
+  crearPrestamo:
+    handler: crearPrestamo.lambdaHandler
+    events:
+      - http:
+          path: /prestamo/crear
+          method: post
+          cors: true
+          integration: lambda
+
+  obtenerPrestamo:
+    handler: obtenerPrestamo.lambdaHandler
+    events:
+      - http:
+          path: /prestamo/obtener
+          method: post
+          cors: true
+          integration: lambda
+
+  actualizarEstadoPrestamo:
+    handler: actualizarEstadoPrestamo.lambdaHandler
+    events:
+      - http:
+          path: /prestamo/actualizar-estado
+          method: post
+          cors: true
+          integration: lambda
+
+  listarPrestamoPorUsuario:
+    handler: listarPrestamoPorUsuario.lambdaHandler
+    events:
+      - http:
+          path: /prestamo/listar-usuario
+          method: post
+          cors: true
+          integration: lambda
+
+  eliminarPrestamo:
+    handler: eliminarPrestamo.lambdaHandler
+    events:
+      - http:
+          path: /prestamo/eliminar
+          method: delete
+          cors: true
+          integration: lambda
+
+resources:
+  Resources:
+    PrestamosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PRESTAMOS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: usuario_id
+            AttributeType: S
+          - AttributeName: prestamo_id
+            AttributeType: S
+          - AttributeName: estado
+            AttributeType: S
+        KeySchema:
+          - AttributeName: usuario_id
+            KeyType: HASH
+          - AttributeName: prestamo_id
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        GlobalSecondaryIndexes:
+          - IndexName: EstadoIndex
+            KeySchema:
+              - AttributeName: usuario_id
+                KeyType: HASH
+              - AttributeName: estado
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+plugins:
+  - serverless-offline # Para desarrollo local
+  - serverless-plugin-split-stacks # Mejora la gestión de recursos grandes
