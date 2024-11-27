@@ -3,7 +3,7 @@ service: api-prestamos
 
 provider:
   name: aws
-  runtime: nodejs18.x # Cambiar a Node.js
+  runtime: nodejs18.x
   memorySize: 1024
   timeout: 30
   iam:
@@ -15,50 +15,50 @@ provider:
 
 functions:
   crearPrestamo:
-    handler: CrearPrestamo.lambdaHandler
+    handler: handlers/crearPrestamo.handler
     events:
       - http:
           path: /prestamo/crear
           method: post
           cors: true
           integration: lambda
-
+          
   obtenerPrestamo:
-    handler: ObtenerPrestamo.lambdaHandler
+    handler: handlers/obtenerPrestamo.handler
     events:
       - http:
           path: /prestamo/obtener
           method: post
           cors: true
           integration: lambda
-
+          
   actualizarEstadoPrestamo:
-    handler: ActualizarEstadoPrestamo.lambdaHandler
+    handler: handlers/actualizarEstadoPrestamo.handler
     events:
       - http:
           path: /prestamo/actualizar-estado
           method: post
           cors: true
           integration: lambda
-
-  listarPrestamoPorUsuario:
-    handler: ListarPrestamoPorUsuario.lambdaHandler
+          
+  listarPrestamobyID:
+    handler: handlers/listarPrestamoPorUsuario.handler
     events:
       - http:
           path: /prestamo/listar-usuario
           method: post
           cors: true
           integration: lambda
-
+          
   eliminarPrestamo:
-    handler: EliminarPrestamo.lambdaHandler
+    handler: handlers/eliminarPrestamo.handler
     events:
       - http:
           path: /prestamo/eliminar
           method: delete
           cors: true
           integration: lambda
-
+          
 resources:
   Resources:
     PrestamosTable:
@@ -79,7 +79,7 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         StreamSpecification:
-          StreamViewType: NEW_AND_OLD_IMAGES
+          StreamViewType: NEW_AND_OLD_IMAGES # Activando streams para eventos
         GlobalSecondaryIndexes:
           - IndexName: EstadoIndex
             KeySchema:
@@ -91,6 +91,3 @@ resources:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
-plugins:
-  - serverless-offline # Para desarrollo local
-  - serverless-plugin-split-stacks # Mejora la gestión de recursos grandes
