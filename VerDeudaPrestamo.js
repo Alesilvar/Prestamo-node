@@ -22,7 +22,7 @@ exports.lambdaHandler = async (event) => {
         if (!prestamo) {
             return {
                 statusCode: 404,
-                body: JSON.stringify({ error: 'Préstamo no encontrado' })
+                body: { error: 'Préstamo no encontrado' }
             };
         }
 
@@ -39,10 +39,10 @@ exports.lambdaHandler = async (event) => {
 
             return {
                 statusCode: 200,
-                body: JSON.stringify({
+                body: {
                     prestamo,
                     interes_extra: interesExtra
-                })
+                }
             };
         }
 
