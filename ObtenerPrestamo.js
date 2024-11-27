@@ -28,10 +28,10 @@ exports.lambdaHandler = async (event) => {
         if (!usuario_id || !prestamo_id) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body: {
                     error: 'Solicitud inválida',
                     details: 'El usuario_id y el prestamo_id son obligatorios'
-                })
+                }
             };
         }
 
@@ -47,7 +47,7 @@ exports.lambdaHandler = async (event) => {
         if (!response.Item) {
             return {
                 statusCode: 404,
-                body: JSON.stringify({ error: 'Préstamo no encontrado' })
+                body: { error: 'Préstamo no encontrado' }
             };
         }
 
@@ -56,10 +56,10 @@ exports.lambdaHandler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({
+            body: {
                 message: 'Préstamo encontrado',
                 prestamo: prestamo
-            })
+            }
         };
     } catch (error) {
         console.error(`Error interno del servidor: ${error.message}`);
