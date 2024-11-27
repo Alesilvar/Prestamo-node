@@ -25,10 +25,10 @@ exports.lambdaHandler = async (event) => {
         if (!event.body) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body:{
                     error: 'Solicitud inválida',
                     details: 'No se encontró el cuerpo de la solicitud'
-                })
+                }
             };
         }
 
@@ -42,10 +42,10 @@ exports.lambdaHandler = async (event) => {
         if (!usuario_id || !prestamo_id || !datos_a_actualizar) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body: {
                     error: 'Solicitud inválida',
                     details: 'El usuario_id, prestamo_id y datos a actualizar son obligatorios'
-                })
+                }
             };
         }
 
@@ -61,10 +61,10 @@ exports.lambdaHandler = async (event) => {
         if (!response.Item) {
             return {
                 statusCode: 404,
-                body: JSON.stringify({
+                body: {
                     error: 'Préstamo no encontrado',
                     details: `No se encontró el préstamo con usuario_id ${usuario_id} y prestamo_id ${prestamo_id}`
-                })
+                }
             };
         }
 
@@ -86,10 +86,10 @@ exports.lambdaHandler = async (event) => {
         if (Object.keys(datosFiltrados).length === 0) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body: {
                     error: 'No hay campos válidos para actualizar',
                     details: `Campos permitidos: ${camposPermitidos}`
-                })
+                }
             };
         }
 
@@ -122,10 +122,10 @@ exports.lambdaHandler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({
+            body: {
                 message: `Préstamo ${prestamo_id} actualizado correctamente`,
                 datos_actualizados: decimalToSerializable(datosFiltrados)
-            })
+            }
         };
     } catch (error) {
         console.error(`Error inesperado: ${error.message}`);
