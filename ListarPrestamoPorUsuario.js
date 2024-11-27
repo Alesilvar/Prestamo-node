@@ -28,10 +28,10 @@ exports.lambdaHandler = async (event) => {
         if (!usuario_id) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body: {
                     error: 'Solicitud inválida',
                     details: 'El usuario_id es obligatorio'
-                })
+                }
             };
         }
 
@@ -53,20 +53,20 @@ exports.lambdaHandler = async (event) => {
         if (prestamosSerializables.length === 0) {
             return {
                 statusCode: 404,
-                body: JSON.stringify({
+                body: {
                     message: 'No se encontraron préstamos para el usuario especificado.',
                     usuario_id: usuario_id
-                })
+                }
             };
         }
 
         return {
             statusCode: 200,
-            body: JSON.stringify({
+            body: {
                 message: 'Préstamos encontrados',
                 usuario_id: usuario_id,
                 prestamos: prestamosSerializables
-            })
+            }
         };
     } catch (error) {
         console.error(`Error: ${error.message}`);
