@@ -15,7 +15,7 @@ provider:
 
 functions:
   crearPrestamo:
-    handler: crearPrestamo.lambdaHandler
+    handler: CrearPrestamo.lambdaHandler
     events:
       - http:
           path: /prestamo/crear
@@ -24,7 +24,7 @@ functions:
           integration: lambda
 
   obtenerPrestamo:
-    handler: obtenerPrestamo.lambdaHandler
+    handler: ObtenerPrestamo.lambdaHandler
     events:
       - http:
           path: /prestamo/obtener
@@ -33,7 +33,7 @@ functions:
           integration: lambda
 
   actualizarEstadoPrestamo:
-    handler: actualizarEstadoPrestamo.lambdaHandler
+    handler: ActualizarEstadoPrestamo.lambdaHandler
     events:
       - http:
           path: /prestamo/actualizar-estado
@@ -42,7 +42,7 @@ functions:
           integration: lambda
 
   listarPrestamoPorUsuario:
-    handler: listarPrestamoPorUsuario.lambdaHandler
+    handler: ListarPrestamoPorUsuario.lambdaHandler
     events:
       - http:
           path: /prestamo/listar-usuario
@@ -51,7 +51,7 @@ functions:
           integration: lambda
 
   eliminarPrestamo:
-    handler: eliminarPrestamo.lambdaHandler
+    handler: EliminarPrestamo.lambdaHandler
     events:
       - http:
           path: /prestamo/eliminar
