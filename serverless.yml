@@ -89,7 +89,8 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
 plugins:
   - serverless-offline # Para desarrollo local
   - serverless-plugin-split-stacks # Mejora la gestión de recursos grandes
