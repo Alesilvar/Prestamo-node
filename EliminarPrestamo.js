@@ -10,10 +10,10 @@ exports.lambdaHandler = async (event) => {
         if (!event.body) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body: {
                     error: 'Solicitud inválida',
                     details: 'No se encontró el cuerpo de la solicitud'
-                })
+                }
             };
         }
 
@@ -27,10 +27,10 @@ exports.lambdaHandler = async (event) => {
         if (!usuario_id || !prestamo_id) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({
+                body: {
                     error: 'Solicitud inválida',
                     details: 'El usuario_id y el prestamo_id son obligatorios'
-                })
+                }
             };
         }
 
@@ -46,10 +46,10 @@ exports.lambdaHandler = async (event) => {
         if (!response.Item) {
             return {
                 statusCode: 404,
-                body: JSON.stringify({
+                body: {
                     error: 'Préstamo no encontrado',
                     details: `No se encontró el préstamo con usuario_id ${usuario_id} y prestamo_id ${prestamo_id}`
-                })
+                }
             };
         }
 
@@ -64,11 +64,11 @@ exports.lambdaHandler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({
+            body: {
                 message: `Préstamo ${prestamo_id} eliminado correctamente`,
                 usuario_id: usuario_id,
                 prestamo_id: prestamo_id
-            })
+            }
         };
     } catch (error) {
         console.error(`Error inesperado: ${error.message}`);
